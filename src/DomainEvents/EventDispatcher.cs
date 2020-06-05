@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Digicando.DomainEvents
+namespace Etherna.DomainEvents
 {
     public class EventDispatcher : IEventDispatcher
     {
@@ -26,6 +26,9 @@ namespace Digicando.DomainEvents
 
         public void AddHandler(Type handlerType)
         {
+            if (handlerType is null)
+                throw new ArgumentNullException(nameof(handlerType));
+
             var eventType = handlerType.GetInterfaces()
                            .Where(i => i.IsGenericType)
                            .Single(i => i.GetGenericTypeDefinition() == typeof(IEventHandler<>))
@@ -39,27 +42,32 @@ namespace Digicando.DomainEvents
 
         public async Task DispatchAsync(IDomainEvent @event)
         {
+            if (@event is null)
+                throw new ArgumentNullException(nameof(@event));
+
             var eventType = @event.GetType();
             if (!eventHandlerTypes.ContainsKey(eventType))
                 return;
 
             // Create scope.
-            using (var scope = serviceProvider.CreateScope())
+            using var scope = serviceProvider.CreateScope();
+
+            // Process handlers.
+            var handlerTypes = eventHandlerTypes[eventType];
+            foreach (var handlerType in handlerTypes)
             {
-                // Process handlers.
-                var handlerTypes = eventHandlerTypes[eventType];
-                foreach (var handlerType in handlerTypes)
-                {
-                    var handler = scope.ServiceProvider.GetService(handlerType) as IEventHandler;
-                    await handler.HandleAsync(@event);
-                }
+                var handler = (IEventHandler)scope.ServiceProvider.GetService(handlerType);
+                await handler.HandleAsync(@event).ConfigureAwait(false);
             }
         }
 
         public async Task DispatchAsync(IEnumerable<IDomainEvent> events)
         {
+            if (events is null)
+                throw new ArgumentNullException(nameof(events));
+
             foreach (var @event in events)
-                await DispatchAsync(@event);
+                await DispatchAsync(@event).ConfigureAwait(false);
         }
     }
 }

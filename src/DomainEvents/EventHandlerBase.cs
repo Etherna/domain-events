@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Digicando.DomainEvents
+namespace Etherna.DomainEvents
 {
     public abstract class EventHandlerBase<TEvent> : IEventHandler<TEvent> where
         TEvent : class, IDomainEvent
@@ -15,7 +15,7 @@ namespace Digicando.DomainEvents
             if (!(@event is TEvent))
                 throw new ArgumentException($"Event must be of type {typeof(TEvent)}");
 
-            return HandleAsync(@event as TEvent);
+            return HandleAsync((TEvent)@event);
         }
     }
 }

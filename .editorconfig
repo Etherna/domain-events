@@ -1,0 +1,10 @@
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# C# files
+[*.cs]
+
+#### Suppress warnings ####
+
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none    # This is an event oriented library, and "event" is a keyword

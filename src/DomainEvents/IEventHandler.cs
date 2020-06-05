@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Digicando.DomainEvents
+namespace Etherna.DomainEvents
 {
     public interface IEventHandler
     {
