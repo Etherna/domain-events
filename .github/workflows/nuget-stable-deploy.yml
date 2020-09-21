@@ -1,0 +1,33 @@
+name: Stable release deploy to NuGet
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-test-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+
+    - name: Run unit tests
+      run: dotnet test --configuration Release
+      
+    - name: Generate nuget package
+      run: dotnet pack --configuration Release -o nupkg
+
+    - name: Push packages
+      run: dotnet nuget push './nupkg/*.nupkg' --api-key ${{secrets.NUGET_KEY}} --source https://api.nuget.org/v3/index.json

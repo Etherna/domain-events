@@ -11,11 +11,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		DomainEvents.sln.licenseheader = DomainEvents.sln.licenseheader
+		GitVersion.yml = GitVersion.yml
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{38658457-21F3-405F-B4A4-C5945FA54DD9}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build-test-package.yml = .github\workflows\build-test-package.yml
+		.github\workflows\myget-unstable-deploy.yml = .github\workflows\myget-unstable-deploy.yml
+		.github\workflows\nuget-stable-deploy.yml = .github\workflows\nuget-stable-deploy.yml
 	EndProjectSection
 EndProject
 Global

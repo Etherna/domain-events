@@ -12,11 +12,15 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-namespace Etherna.DomainEvents
+namespace Etherna.DomainEvents.Events
 {
-#pragma warning disable CA1040 // Avoid empty interfaces
-    public interface IDomainEvent
-#pragma warning restore CA1040 // Avoid empty interfaces
+    public class EntityCreatedEvent<TModel> : IDomainEvent
     {
+        public EntityCreatedEvent(TModel entity)
+        {
+            Entity = entity;
+        }
+
+        public TModel Entity { get; }
     }
 }

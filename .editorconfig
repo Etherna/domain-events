@@ -1,10 +1,20 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-# C# files
-[*.cs]
+#### Define style ####
+
+# All files
+[*]
+indent_style = space
+
+# C# Project files
+[*.csproj]
+indent_size = 2
 
 #### Suppress warnings ####
+
+# C# files
+[*.cs]
 
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none    # This is an event oriented library, and "event" is a keyword

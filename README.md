@@ -1,5 +1,6 @@
-# domain-events
+DomainEvents
+============
 
-Small events utility for manage event handling coming from domain context.
+Simple events utility for manage event handling coming from domain context.
 
 Issue tracker: https://etherna.atlassian.net/projects/DOME
