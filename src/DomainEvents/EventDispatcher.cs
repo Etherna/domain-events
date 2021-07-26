@@ -23,8 +23,7 @@ namespace Etherna.DomainEvents
     public class EventDispatcher : IEventDispatcher
     {
         // Fields.
-        private readonly Dictionary<Type, List<Type>> eventHandlerTypes =
-            new Dictionary<Type, List<Type>>(); //EventType -> HandlerType[]
+        private readonly Dictionary<Type, List<Type>> eventHandlerTypes = new(); //EventType -> HandlerType[]
         private readonly IServiceProvider serviceProvider;
 
         // Constructors.
