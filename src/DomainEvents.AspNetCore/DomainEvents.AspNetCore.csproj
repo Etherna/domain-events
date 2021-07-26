@@ -11,6 +11,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
 
+    <PackageId>Etherna.DomainEvents.AspNetCore</PackageId>
     <RepositoryUrl>https://github.com/Etherna/domain-events</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
