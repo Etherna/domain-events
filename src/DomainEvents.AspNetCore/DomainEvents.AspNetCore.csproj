@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RootNamespace>Etherna.DomainEvents</RootNamespace>
+    <RootNamespace>Etherna.DomainEvents.AspNetCore</RootNamespace>
     <Authors>Etherna Sagl</Authors>
-    <Description>Small library with tools for build domain dispatched events</Description>
+    <Description>Asp.Net Core adapter for DomainEvents</Description>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    
-    <PackageId>Etherna.DomainEvents</PackageId>
+
+    <PackageId>Etherna.DomainEvents.AspNetCore</PackageId>
     <RepositoryUrl>https://github.com/Etherna/domain-events</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -23,16 +23,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExecutionContext" Version="1.0.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExecutionContext.AspNetCore" Version="1.0.0" />
     <PackageReference Include="GitVersion.MsBuild" Version="5.6.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DomainEvents\DomainEvents.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,10 +20,14 @@ namespace Etherna.DomainEvents
 {
     public interface IEventDispatcher
     {
+        bool IsEventDispatchDisabled { get; }
+
         void AddHandler<THandler>()
             where THandler : IEventHandler;
 
         void AddHandler(Type handlerType);
+
+        IDisposable DisableEventDispatch();
 
         Task DispatchAsync(IDomainEvent @event);
 

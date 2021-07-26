@@ -13,22 +13,5 @@
 //   limitations under the License.
 
 using System;
-using System.Threading.Tasks;
 
-namespace Etherna.DomainEvents
-{
-#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
-    public interface IEventHandler
-    {
-        Type HandledType { get; }
-
-        Task HandleAsync(IDomainEvent @event);
-    }
-
-    public interface IEventHandler<TEvent> : IEventHandler where
-        TEvent : class, IDomainEvent
-    {
-        Task HandleAsync(TEvent @event);
-    }
-#pragma warning restore CA1711 // Identifiers should not have incorrect suffix
-}
+[assembly: CLSCompliant(false)]
