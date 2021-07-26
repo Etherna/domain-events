@@ -12,6 +12,8 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+using Etherna.DomainEvents.Modifiers;
+using Etherna.ExecContext;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -24,14 +26,21 @@ namespace Etherna.DomainEvents
     {
         // Fields.
         private readonly Dictionary<Type, List<Type>> eventHandlerTypes = new(); //EventType -> HandlerType[]
+        private readonly IExecutionContext executionContext;
         private readonly IServiceProvider serviceProvider;
 
         // Constructors.
         public EventDispatcher(
+            IExecutionContext executionContext,
             IServiceProvider serviceProvider)
         {
+            this.executionContext = executionContext;
             this.serviceProvider = serviceProvider;
         }
+
+        // Properties.
+        public bool IsEventDispatchDisabled =>
+            EventDispatcherModifier.IsEventDispatchDisabled(executionContext);
 
         // Methods.
         public void AddHandler<THandler>() where THandler : IEventHandler =>
@@ -53,10 +62,17 @@ namespace Etherna.DomainEvents
             eventHandlerTypes[eventType].Add(handlerType);
         }
 
+        public IDisposable DisableEventDispatch() =>
+            new EventDispatcherModifier(executionContext);
+
         public async Task DispatchAsync(IDomainEvent @event)
         {
             if (@event is null)
                 throw new ArgumentNullException(nameof(@event));
+
+            // Verify pre-conditions.
+            if (EventDispatcherModifier.IsEventDispatchDisabled(executionContext))
+                return;
 
             var eventType = @event.GetType();
             if (!eventHandlerTypes.ContainsKey(eventType))
