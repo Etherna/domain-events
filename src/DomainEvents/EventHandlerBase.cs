@@ -26,7 +26,7 @@ namespace Etherna.DomainEvents
 
         public Task HandleAsync(IDomainEvent @event)
         {
-            if (!(@event is TEvent))
+            if (@event is not TEvent)
                 throw new ArgumentException($"Event must be of type {typeof(TEvent)}");
 
             return HandleAsync((TEvent)@event);
