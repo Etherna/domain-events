@@ -33,8 +33,7 @@ namespace Etherna.DomainEvents.Modifiers
         // Constructor.
         public EventDispatcherModifier(IExecutionContext context)
         {
-            if (context is null)
-                throw new ArgumentNullException(nameof(context));
+            ArgumentNullException.ThrowIfNull(context, nameof(context));
             if (context.Items is null)
                 throw new ExecutionContextNotFoundException();
 
@@ -71,17 +70,16 @@ namespace Etherna.DomainEvents.Modifiers
         // Static methods.
         public static bool IsEventDispatchDisabled(IExecutionContext context)
         {
-            if (context is null)
-                throw new ArgumentNullException(nameof(context));
+            ArgumentNullException.ThrowIfNull(context, nameof(context));
             if (context.Items is null)
                 throw new ExecutionContextNotFoundException();
 
-            if (!context.Items.ContainsKey(ModifierKey))
+            if (!context.Items.TryGetValue(ModifierKey, out var modRequests))
                 return false;
-            var requests = (ICollection<EventDispatcherModifier>)context.Items[ModifierKey]!;
+            var requests = (ICollection<EventDispatcherModifier>)modRequests!;
 
             lock (((ICollection)requests).SyncRoot)
-                return requests.Any();
+                return requests.Count != 0;
         }
     }
 }
