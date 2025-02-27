@@ -18,17 +18,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Etherna.DomainEvents.AspNetCore
 {
     public static class ServiceCollectionExtensions
     {
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public static IServiceCollection AddDomainEvents(
             this IServiceCollection services,
             IEnumerable<Type> eventHandlerTypes)
         {
-            if (eventHandlerTypes is null)
-                throw new ArgumentNullException(nameof(eventHandlerTypes));
+            ArgumentNullException.ThrowIfNull(eventHandlerTypes, nameof(eventHandlerTypes));
 
             // External dependencies.
             services.AddExecutionContext();
@@ -43,7 +44,7 @@ namespace Etherna.DomainEvents.AspNetCore
                 var executionContext = sp.GetRequiredService<IExecutionContext>();
                 var dispatcher = new EventDispatcher(executionContext, sp);
 
-                //subscrive handlers to dispatcher
+                //subscribe handlers to dispatcher
                 foreach (var handlerType in eventHandlerTypes)
                     dispatcher.AddHandler(handlerType);
 
